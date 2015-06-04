@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="Test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.testng.TESTNG_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Apps/eclipse/plugins/org.testng.eclipse_6.9.0.201505070412/lib/jcommander-1.47.jar"/>
 	<classpathentry kind="lib" path="C:/Dev/jmockit1.org/jmockit.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
