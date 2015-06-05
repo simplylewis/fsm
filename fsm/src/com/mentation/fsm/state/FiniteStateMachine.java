@@ -18,6 +18,9 @@ package com.mentation.fsm.state;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 
 import com.mentation.fsm.message.IMessage;
 
@@ -26,6 +29,7 @@ public class FiniteStateMachine {
 	private final BlockingQueue<IMessage> _messageQueue = new LinkedBlockingQueue<>();
 	private Thread _fsmThread = null;
 	private String _name;
+	private java.util.logging.Logger _logger = java.util.logging.Logger.getLogger("FiniteStateMachine");
 	
 	public FiniteStateMachine(String name, FiniteState initialState) {
 		_name = name;
@@ -33,7 +37,7 @@ public class FiniteStateMachine {
 	}
 	
 	public void consumeMessage(IMessage message) {
-		System.out.println("Queuing message " + message);
+		_logger.log(Level.FINE, "Queuing message " + message);
 		_messageQueue.add(message);
 	}
 
@@ -41,7 +45,7 @@ public class FiniteStateMachine {
 		return _name;
 	}
 	
-	public Object getState() {
+	public FiniteState getState() {
 		return _current;
 	}
 
@@ -56,11 +60,13 @@ public class FiniteStateMachine {
 	
 	protected void step() {
 		try {
+			StringBuilder sb = new StringBuilder(_name).append(' ').append(_current.getName());
+			
 			IMessage message = _messageQueue.take();
-			System.out.println(new StringBuilder(_name).append(' ').
-					append(_current.getName()).append(" processing message type ").append(message));
 			_current = _current.processMessage(message);
-			System.out.println("New state is " + _current.getName());
+			
+			_logger.log(Level.INFO, sb.append(" processing message type ").append(message).
+					append(" New state is ").append(_current.getName()).toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
