@@ -18,8 +18,6 @@ package com.mentation.fsm.state;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
 
 import com.mentation.fsm.message.IMessage;
@@ -60,13 +58,12 @@ public class FiniteStateMachine {
 	
 	protected void step() {
 		try {
-			StringBuilder sb = new StringBuilder(_name).append(' ').append(_current.getName());
+			StringBuilder sb = new StringBuilder(_name).append(' ').append(_current.getName()).append(" processing message type ");
 			
 			IMessage message = _messageQueue.take();
 			_current = _current.processMessage(message);
 			
-			_logger.log(Level.INFO, sb.append(" processing message type ").append(message).
-					append(" New state is ").append(_current.getName()).toString());
+			_logger.log(Level.INFO, sb.append(message).append(" New state is ").append(_current.getName()).toString());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +79,7 @@ public class FiniteStateMachine {
 			super(name);
 		}
 		
+		@Override
 		public void run() {
 			while (true) {
 				step();
