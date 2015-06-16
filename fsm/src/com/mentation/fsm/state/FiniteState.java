@@ -18,6 +18,8 @@ package com.mentation.fsm.state;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.mentation.fsm.action.IStateEntryAction;
 import com.mentation.fsm.message.IMessage;
@@ -68,11 +70,11 @@ public class FiniteState {
 	private String listTransitionTable() {
 		StringBuilder sb = new StringBuilder("TransitionTable: ");
 
-		Iterator<IMessage> it = _transitionTable.keySet().iterator();
+		Iterator<Map.Entry<IMessage, FiniteState>> it = _transitionTable.entrySet().iterator();
 		
 		while (it.hasNext()) {
-			IMessage c = it.next();
-			sb.append(c).append(" -> ").append(_transitionTable.get(c).getName());
+			Entry<IMessage, FiniteState> c = it.next();
+			sb.append(c.getKey()).append(" -> ").append(c.getValue().getName());
 		}
 		
 		return sb.toString();

@@ -24,9 +24,9 @@ import com.mentation.fsm.state.FiniteState;
 
 public class FiniteStateTest {	
 
-	class M1 implements IMessage {}
-	class M2 implements IMessage {}
-	class M3 implements IMessage {}
+	static class M1 implements IMessage {}
+	static class M2 implements IMessage {}
+	static class M3 implements IMessage {}
 	
   @Test
   public void processMessage() {

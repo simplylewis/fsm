@@ -29,8 +29,8 @@ public final class FiniteStateMachineTest {
 	@Mocked IStateEntryAction actionOne;
 	@Mocked IStateEntryAction actionTwo;
 	
-	class M1 implements IMessage {};
-	class M2 implements IMessage {};
+	static class M1 implements IMessage {};
+	static class M2 implements IMessage {};
 	
 	@Test
 	public void consumeMessageNoAction() {
@@ -110,7 +110,7 @@ public final class FiniteStateMachineTest {
 		Assert.assertTrue(isThreadPresent(fsm));
 		
 		Thread t1 = fsm.getThread();
-		fsm.start();
+		fsm.start(); // Show this does not replace the existing thread
 		Assert.assertEquals(fsm.getThread(), t1);
 	}
 
