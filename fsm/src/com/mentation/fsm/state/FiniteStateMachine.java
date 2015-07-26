@@ -51,7 +51,7 @@ public class FiniteStateMachine {
 		synchronized(this) {
 			if (_fsmThread != null) return;
 			_fsmThread = new FsmRunner(_name);
-			_fsmThread.setDaemon(true);		
+			_fsmThread.setDaemon(false);		
 			_fsmThread.start();
 		}
 	}
