@@ -29,8 +29,8 @@ public final class FiniteStateMachineTest {
 	@Mocked IStateEntryAction actionOne;
 	@Mocked IStateEntryAction actionTwo;
 	
-	static class M1 implements IMessage {};
-	static class M2 implements IMessage {};
+	static class M1 implements IMessage { public String name() { return this.toString().replaceFirst("^com.mentation.[^$]+\\$", ""); }};
+	static class M2 implements IMessage { public String name() { return this.toString().replaceFirst("^com.mentation.[^$]+\\$", ""); }};
 	
 	@Test
 	public void consumeMessageNoAction() {

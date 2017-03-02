@@ -17,5 +17,5 @@ limitations under the License.
 package com.mentation.fsm.message;
 
 public interface IMessage {
-
+	String name();
 }

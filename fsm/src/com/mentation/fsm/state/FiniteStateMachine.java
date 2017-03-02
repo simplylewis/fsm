@@ -25,7 +25,7 @@ import com.mentation.fsm.message.IMessage;
 public class FiniteStateMachine {
 	private volatile FiniteState _current;
 	private final BlockingQueue<IMessage> _messageQueue = new LinkedBlockingQueue<>();
-	private Thread _fsmThread = null;
+	private FsmRunner _fsmThread = null;
 	private String _name;
 	private java.util.logging.Logger _logger = java.util.logging.Logger.getLogger("FiniteStateMachine");
 	
@@ -35,7 +35,7 @@ public class FiniteStateMachine {
 	}
 	
 	public void consumeMessage(IMessage message) {
-		_logger.log(Level.FINE, "Queuing message " + message);
+		_logger.log(Level.FINE, "Queuing message " + message.name());
 		_messageQueue.add(message);
 	}
 
@@ -58,15 +58,24 @@ public class FiniteStateMachine {
 	
 	protected void step() {
 		try {
-			StringBuilder sb = new StringBuilder(_name).append(' ').append(_current.getName()).append(" processing message type ");
+			
 			
 			IMessage message = _messageQueue.take();
-			_current = _current.processMessage(message);
+			StringBuilder sb = new StringBuilder(_name).append(' ').append(_current.getName()).append(" processing message type ").append(message.name());
 			
-			_logger.log(Level.INFO, sb.append(message).append(" New state is ").append(_current.getName()).toString());
+			FiniteState newState = _current.processMessage(message);
+			
+			if (_current.equals(newState)) {
+				sb.append(" No change");
+			}
+			else {
+				_current = newState;
+				sb.append(" New state is ").append(_current.getName());
+			}
+			
+			_logger.log(Level.INFO, sb.toString());
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Ignore
 		}
 	}
 
@@ -75,16 +84,27 @@ public class FiniteStateMachine {
 	}
 	
 	class FsmRunner extends Thread {
+		private boolean _running = false;
+
 		FsmRunner(String name) {
 			super(name);
 		}
 		
 		@Override
 		public void run() {
-			while (true) {
+			_running = true;
+			while (_running ) {
 				step();
 			}
 		}
 
+		void end() {
+			_running = false;
+			_fsmThread.interrupt();
+		}
+	}
+
+	public void end() {
+		_fsmThread.end();
 	}
 }

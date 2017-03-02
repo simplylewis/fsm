@@ -24,9 +24,9 @@ import com.mentation.fsm.state.FiniteState;
 
 public class FiniteStateTest {	
 
-	static class M1 implements IMessage {}
-	static class M2 implements IMessage {}
-	static class M3 implements IMessage {}
+	static class M1 implements IMessage { public String name() { return this.toString().replaceFirst("^com.mentation.alfonso.Alfonso\\$", ""); }}
+	static class M2 implements IMessage { public String name() { return this.toString().replaceFirst("^com.mentation.alfonso.Alfonso\\$", ""); }}
+	static class M3 implements IMessage { public String name() { return this.toString().replaceFirst("^com.mentation.alfonso.Alfonso\\$", ""); }}
 	
   @Test
   public void processMessage() {
